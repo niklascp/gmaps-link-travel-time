@@ -21,7 +21,7 @@ with open('data/errors_' + datetime.now().date().isoformat() + '.csv', 'a') as e
             origins = str(row['FromLat']) + ',' + str(row['FromLng'])
             destinations = str(row['ToLat']) + ',' + str(row['ToLng'])
 
-            result = gmaps.distance_matrix(origins = origins, destinations = destinations)
+            result = gmaps.distance_matrix(origins = origins, destinations = destinations, departure_time = datetime.now(), mode = 'driving', traffic_model = 'best_guess')
 
             if result['status'] == 'OK':
                 cell = result['rows'][0]['elements'][0]
