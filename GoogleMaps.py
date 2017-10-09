@@ -21,12 +21,17 @@ with open('data/errors_' + datetime.now().date().isoformat() + '.csv', 'a') as e
             origins = str(row['FromLat']) + ',' + str(row['FromLng'])
             destinations = str(row['ToLat']) + ',' + str(row['ToLng'])
 
-            result = gmaps.distance_matrix(origins = origins, destinations = destinations, departure_time = datetime.now(), mode = 'driving', traffic_model = 'best_guess')
+            result = gmaps.distance_matrix(
+                origins = origins,
+                destinations = destinations,
+                departure_time = datetime.now(),
+                mode = 'driving',
+                traffic_model = 'best_guess')
 
             if result['status'] == 'OK':
                 cell = result['rows'][0]['elements'][0]
-                output.write(datetime.now().isoformat() + ',' + link_ref + ',' + str(cell['distance']['value']) + ',' + str(cell['duration']['value']) + '\n')
+                output.write(datetime.now().isoformat() + ',' + link_ref + ',' + str(cell['distance']['value']) + ',' + str(cell['duration_in_traffic']['value']) + '\n')
             else:
-                error.write(datetime.now().isoformat() + ',' + link_ref + ',' + result['status'])
+                error.write(datetime.now().isoformat() + ',' + link_ref + ',' + result['status'] + '\n')
                 
             time.sleep(5)
